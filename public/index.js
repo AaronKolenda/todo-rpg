@@ -1,4 +1,11 @@
-var x = function(){}
+var templates = {};
+
+var getTemplates = function(){
+
+  var allTasksString = $("#all-tasks-template").text()
+  templates.allTasksInfo = Handlebars.compile(allTasksString);
+
+  };
 
 var listTasks = function(callback) {
 
@@ -13,12 +20,15 @@ var listTasks = function(callback) {
 }
 
 var displayTasks = function(data) {
-	console.log(data);
+	var taskListString = templates.allTasksInfo(data);
+	$("#taskList").html(taskListString);
 }
 
-listTasks(displayTasks);
+
 
 $(document).ready(function(){
+
+	getTemplates();
 
 	$("#searchInput").click(function(){
 		$("#searchInput").val(" ");
@@ -30,5 +40,11 @@ $(document).ready(function(){
 		$("#createInput").css("color", "#555555;");
 	});
 
+	$("#all").click(function(){
+		listTasks(displayTasks);
+	});
+
 });
+
+
 

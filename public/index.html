@@ -46,6 +46,42 @@
 	</div>
    </header>
 
+   <div class="container" id="taskList">
+
+   		<script type="x-handlebars-template" id="all-tasks-template">
+
+   			{{#each this}}
+			<div class="taskWrap row">
+
+			  <h2>Task</h2>
+          
+              <div class="infoWrap">
+              {{this.task}}
+              </div>
+
+               <div class="infoWrap">
+              Completed: {{this.complete}}
+              </div>
+
+              <div class="infoWrap">
+              id# {{this.id}}
+              </div>
+
+              <div class="infoWrap">
+              value: {{this.value}}
+              </div>
+
+              <div class="infoWrap">
+              Created at: {{this.createdAt}}
+              </div>
+
+            </div>
+            {{/each}}
+
+        </script>
+
+   </div>
+
 
   </body>
 </html>
