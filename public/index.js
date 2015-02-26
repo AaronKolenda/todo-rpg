@@ -5,10 +5,6 @@ var getTemplates = function(){
   var tasksString = $("#tasks-template").text()
   templates.tasksInfo = Handlebars.compile(tasksString);
 
-  //templates.completeTasksInfo = Handlebars.compile(tasksString);
-
-  //templates.incompleteTasksInfo = Handlebars.compile(tasksString);
-
   };
 
 var listTasks = function(callback) {
@@ -48,23 +44,38 @@ var listIncompleteTasks = function(callback) {
 }
 
 var displayTasks = function(data) {
+
 	var taskListString = templates.tasksInfo(data);
 	$("#taskList").html(taskListString);
+
+	console.log(data);
+
+	_.each(data, function(element, index){
+		if (element.complete === false) {
+			console.log("in if statement");
+		var buttonString = "<button>Mark as incomplete</button>";
+		console.log("button string is " + buttonString);
+		$("#taskWrap").append(buttonString);
+		}
+		console.log(element);
+	});
+
 }
 
-/*var displayCompleteTasks = function(data) {
-	var taskCompleteString = templates.tasksInfo(data);
-	$("#taskList").html(taskCompleteString);
-	console.log("success");
+
+var createButtons = function(task) {
+
+		if (task.complete === true) {
+		var buttonString = "<button>Mark as incomplete</button>";
+		$("#taskWrap").append(buttonString);
+		}
+
+		if (task.complete === false) {
+		var buttonString = "<button>Mark as complete</button>";
+		$("#taskWrap").append(buttonString);
+		}
+
 }
-
-var displayinIncompleteTasks = function(data) {
-	var taskIncompleteString = templates.tasksInfo(data);
-	$("#taskList").html(taskIncompleteString);
-	console.log("inc success");
-}*/
-
-
 
 
 $(document).ready(function(){
