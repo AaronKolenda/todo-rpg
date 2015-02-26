@@ -2,8 +2,50 @@
 <html>
   <head>
     <title>TodoRPG</title>
+    	<link rel="stylesheet/less" type="text/css" href="style.less" />
+    	<script src="libs/less.min.js" type="text/javascript"></script>
+		<script src="libs/jquery.js"></script>
+		<script src="libs/underscore.js"></script>
+		<script src="libs/handlebars.js"></script>
+		<script src="index.js"></script>
   </head>
   <body>
-    Hey, you should put some content here!!
+   <header>
+   	<div class="container">
+   	  	<div class="row centerRow">
+   	  		<h1>Keep Track of Your Tasks. Get Experience Points. Get Rewarded.</h1>
+   	  	</div>
+
+   	  	<div class="row centerRow">
+   	  		<div class="cell columns3">
+		   		<button id="completed">Completed</button>
+		   	</div>
+
+		   	<div class="cell columns3">
+		   		<button id="all">All Tasks</button>
+		   	</div>
+
+		   	<div class="cell columns3">
+		   		<button id="incomplete">Incomplete</button>
+		   	</div>
+		</div>
+
+		<div class="row centerRow">
+			<div class="cell columns5">
+				<h1>Search for a task</h1>
+			   	<input type="text" value="Task ID#" id="searchInput">
+			   	<button id="search">Search</button>
+		   	</div>
+		
+			<div class="cell columns5">
+				<h1>Create a new task</h1>
+			   	<input type="text" value="Create New Task" id="createInput">
+		   	<button id="create">Create</button>
+		   	</div>
+		</div>
+	</div>
+   </header>
+
+
   </body>
 </html>
