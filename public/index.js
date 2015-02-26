@@ -3,11 +3,11 @@ var templates = {};
 var getTemplates = function(){
 
   var tasksString = $("#tasks-template").text()
-  templates.allTasksInfo = Handlebars.compile(tasksString);
+  templates.tasksInfo = Handlebars.compile(tasksString);
 
-  templates.completeTasksInfo = Handlebars.compile(tasksString);
+  //templates.completeTasksInfo = Handlebars.compile(tasksString);
 
-  templates.incompleteTasksInfo = Handlebars.compile(tasksString);
+  //templates.incompleteTasksInfo = Handlebars.compile(tasksString);
 
   };
 
@@ -48,21 +48,21 @@ var listIncompleteTasks = function(callback) {
 }
 
 var displayTasks = function(data) {
-	var taskListString = templates.allTasksInfo(data);
+	var taskListString = templates.tasksInfo(data);
 	$("#taskList").html(taskListString);
 }
 
-var displayCompleteTasks = function(data) {
-	var taskCompleteString = templates.completeTasksInfo(data);
+/*var displayCompleteTasks = function(data) {
+	var taskCompleteString = templates.tasksInfo(data);
 	$("#taskList").html(taskCompleteString);
 	console.log("success");
 }
 
 var displayinIncompleteTasks = function(data) {
-	var taskIncompleteString = templates.incompleteTasksInfo(data);
+	var taskIncompleteString = templates.tasksInfo(data);
 	$("#taskList").html(taskIncompleteString);
 	console.log("inc success");
-}
+}*/
 
 
 
@@ -86,11 +86,11 @@ $(document).ready(function(){
 	});
 
 	$("#completed").click(function(){
-		listCompleteTasks(displayCompleteTasks);
+		listCompleteTasks(displayTasks);
 	});
 
 	$("#incomplete").click(function(){
-		listIncompleteTasks(displayinIncompleteTasks);
+		listIncompleteTasks(displayTasks);
 	});
 
 });
