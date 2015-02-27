@@ -51,7 +51,7 @@
    		<script type="x-handlebars-template" id="tasks-template">
 
    			{{#each this}}
-			<div class="taskWrap row" id="taskWrap">
+			<div class="taskWrap row" id="{{this.id}}">
 
 			  <h2>Task</h2>
           
@@ -76,13 +76,49 @@
               </div>
 
               <div class="infoWrap">
-              <button id="{{this.id}}" class="mark">{{this.button}}</button>
+              <button id="{{this.id}}" class="mark" value="{{this.complete}}">{{this.button}}</button>
               </div>
 
             </div>
             {{/each}}
 
         </script>
+
+
+      <script type="x-handlebars-template" id="single-task-template">
+       
+      <div class="taskWrap row" id="{{this.id}}">
+
+        <h2>Task</h2>
+          
+              <div class="infoWrap">
+              {{this.task}}
+              </div>
+
+               <div class="infoWrap">
+              Completed: {{this.complete}}
+              </div>
+
+              <div class="infoWrap">
+              id# {{this.id}}
+              </div>
+
+              <div class="infoWrap">
+              value: {{this.value}}
+              </div>
+
+              <div class="infoWrap">
+              Created at: {{this.createdAt}}
+              </div>
+
+              <div class="infoWrap">
+              <button id="{{this.id}}" class="mark" value="{{this.complete}}">{{this.button}}</button>
+              </div>
+
+            </div>
+
+        </script>
+
 
    </div>
 
