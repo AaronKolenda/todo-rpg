@@ -45,38 +45,26 @@ var listIncompleteTasks = function(callback) {
 
 var displayTasks = function(data) {
 
+	var markAsComplete = "Mark as Complete";
+	var markAsIncomplete = "Mark as Incomplete";
+
+	_.each(data, function(element, index){
+
+		if (element.complete === true) {
+			element.button = markAsIncomplete;
+		}
+
+		if (element.complete === false) {
+			element.button = markAsComplete;
+		}
+		console.log(element);
+
+	});
+
 	var taskListString = templates.tasksInfo(data);
 	$("#taskList").html(taskListString);
 
-	console.log(data);
-
-	_.each(data, function(element, index){
-		if (element.complete === false) {
-			console.log("in if statement");
-		var buttonString = "<button>Mark as incomplete</button>";
-		console.log("button string is " + buttonString);
-		$("#taskWrap").append(buttonString);
-		}
-		console.log(element);
-	});
-
 }
-
-
-var createButtons = function(task) {
-
-		if (task.complete === true) {
-		var buttonString = "<button>Mark as incomplete</button>";
-		$("#taskWrap").append(buttonString);
-		}
-
-		if (task.complete === false) {
-		var buttonString = "<button>Mark as complete</button>";
-		$("#taskWrap").append(buttonString);
-		}
-
-}
-
 
 $(document).ready(function(){
 
