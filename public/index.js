@@ -47,14 +47,16 @@ var listIncompleteTasks = function(callback) {
 }
 
 var getTaskByID = function(id, callback) {
-
+	
 	var urlString = ("/tasks/" + id);
+	console.log(urlString);
 
   $.ajax({
     url: urlString,
     method: "GET",
     success: function(data) {
-      callback(id, data)
+    	console.log(data)
+      callback(id, data);
     }
   })
 
@@ -77,6 +79,24 @@ var displayOneTask = function(id, data) {
 	var singleListString = templates.singleInfo(data);
 	$("#" + id).html(singleListString);
 
+}
+
+var displayTaskByID = function(id, data) {
+
+	var markAsComplete = "Mark as Complete";
+	var markAsIncomplete = "Mark as Incomplete";
+
+		if (data.complete === true) {
+			data.button = markAsIncomplete;
+		}
+
+		if (data.complete === false) {
+			data.button = markAsComplete;
+		}
+
+	
+	var singleListString = templates.singleInfo(data);
+	$("#taskList").html(singleListString);
 
 }
 
@@ -167,6 +187,12 @@ $(document).ready(function(){
             markComplete(buttonID, buttonValue);
         });
 
+	$("#search").click(function(){
+		var inputID = $("#searchInput").val();
+		inputID = inputID.trim();
+		console.log(inputID);
+		getTaskByID(inputID, displayTaskByID);
+	});
 
 
 });
