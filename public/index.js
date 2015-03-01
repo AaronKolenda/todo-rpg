@@ -112,8 +112,6 @@ var markComplete = function(id, value) {
 		    url: urlStringClose,
 		    method: "POST",
 		    success: function(data) {
-		      console.log(data);
-		      //callback(data);
 		    }
 		  })
 	}
@@ -123,8 +121,6 @@ var markComplete = function(id, value) {
 		    url: urlStringOpen,
 		    method: "POST",
 		    success: function(data) {
-		      console.log(data);
-		      //callback(data);
 		    }
 		  })
 	}
@@ -155,6 +151,27 @@ var displayTasks = function(data) {
 
 }
 
+var createNewTask = function(name, value, callback) {
+	var data = {};
+	data.task = name;
+	data.value = value;
+
+	console.log(data.task);
+	console.log(data.value); //these work
+
+  $.ajax({
+    url: "/tasks",
+    method: "PUT",
+    data: data,
+    success: function(data) { 
+	console.log(data);
+	var newID = data.id;
+	callback(newID, data);
+    }
+  })
+
+}
+
 $(document).ready(function(){
 
 	getTemplates();
@@ -167,6 +184,11 @@ $(document).ready(function(){
 	$("#createInput").click(function(){
 		$("#createInput").val(" ");
 		$("#createInput").css("color", "#555555;");
+	});
+
+	$("#valueInput").click(function(){
+		$("#valueInput").val(" ");
+		$("#valueInput").css("color", "#555555;");
 	});
 
 	$("#all").click(function(){
@@ -192,6 +214,17 @@ $(document).ready(function(){
 		inputID = inputID.trim();
 		console.log(inputID);
 		getTaskByID(inputID, displayTaskByID);
+	});
+
+	$("#create").click(function(){
+		var createID = $("#createInput").val();
+		createID = createID.trim();
+		console.log(createID);
+
+		var valueNew = $("#valueInput").val();
+		valueNew = valueNew.trim();
+		console.log(valueNew);
+		createNewTask(createID, valueNew, displayTaskByID);
 	});
 
 
