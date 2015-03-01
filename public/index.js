@@ -8,6 +8,9 @@ var getTemplates = function(){
   var singleString = $("#single-task-template").text()
   templates.singleInfo = Handlebars.compile(singleString);
 
+  var statString = $("#stats-template").text()
+  templates.statInfo = Handlebars.compile(statString);
+
   };
 
 var listTasks = function(callback) {
@@ -208,6 +211,20 @@ var createNewTask = function(name, value, callback) {
 
 }
 
+var listStats = function(callback) {
+
+  $.ajax({
+    url: "/stats",
+    method: "GET",
+    success: function(data) {
+
+    	var statString = templates.statInfo(data);
+		$("#taskList").html(statString);
+    }
+  })
+
+}
+
 $(document).ready(function(){
 
 	getTemplates();
@@ -237,6 +254,10 @@ $(document).ready(function(){
 
 	$("#incomplete").click(function(){
 		listIncompleteTasks(displayTasks);
+	});
+
+	$("#statButton").click(function(){
+		listStats();
 	});
 
 	$(document).on('click', ".mark", function(){

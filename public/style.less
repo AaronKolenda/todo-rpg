@@ -79,20 +79,26 @@ input {
   text-align: left;
 }
 
-.noPadding {
-  padding: 0px;
-}
-
 .pushRight {
   margin-left: 80px;
 }
 
 .taskWrap {
-  height: 100px;
   box-sizing: border-box;
   background-color: rgb(255, 0, 67);
   border-radius: 10px;
   font-family: helvetica;
+}
+
+.taskHeading {
+  margin-top: 25px;
+}
+
+.statWrap {
+  box-sizing: border-box;
+  background-color: yellow;
+  border-radius: 10px;
+  font-family: helvetica; 
 }
 
 .columns1 {
@@ -163,10 +169,43 @@ input {
   margin-left: ((100% / 10) * 7);
 }
 
+@media (max-width: 1456px) {
+
+  .taskHeading {
+  margin-top: 18px;
+  }
+
+}
+
 @media (max-width: 1380px) {
 
   .columns3 {
     width: ((100% / 10) * 4) - 1%;
+  }
+
+  .taskHeading {
+  padding-bottom: 0px;
+  }
+
+   .columns7 {
+    width: 100%;
+    padding-top: 10px;
+  }
+
+  .infoWrap {
+    padding-top: 10px;
+  }
+
+   #createInput, #valueInput {
+    margin-top: 20px;
+  }
+
+  #create, #search {
+      margin-top: 20px;
+    }
+
+  .pushRight {
+    margin-left: 0px;
   }
 
   .columns6 {
@@ -180,12 +219,8 @@ input {
   }
 
   .new3 {
-  width: ((100% / 10) * 2) - 1%;
+  width: ((100% / 10) * 4) - 1%;
   margin:;
-  }
-
-  .taskWrap {
-    height: 250px;
   }
 
   .taskWrap .columns3 {
@@ -202,11 +237,10 @@ input {
     margin-top: 30px;
   }
 
+}
 
-  }
 
-
-  @media (max-width: 950px) {
+@media (max-width: 950px) {
     #search,#create {
       margin-top: 20px;
     }
@@ -219,14 +253,7 @@ input {
       padding-left: 0px;
     }
 
-  }
-
-  @media (max-width: 855px) {
-    .taskWrap {
-      height: 300px;
-    }
-
-  }
+}
 
   @media (max-width: 700px) {
     .centerRow {
@@ -240,7 +267,7 @@ input {
   }
 
    @media (max-width: 600px) {
-    .new3 .columns3 {
+    .new3 .columns4 {
       display: inline-block;
       margin-top: 10px;
       padding: 0px;
@@ -254,10 +281,6 @@ input {
       min-width: 600px;
     }
 
-    .taskWrap {
-      height: 275px;
-    }
-
     .pushRight .columns3, .columns6 {
       display: block;
       padding: 0px;
@@ -268,7 +291,7 @@ input {
       display: inline-block;
     }
 
-    .pushRight .columns3 {
+    .pushRight .columns4 {
       margin-bottom: 10px;
     }
 

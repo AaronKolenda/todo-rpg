@@ -17,17 +17,21 @@
    	  	</div>
 
    	  	<div class="row centerRow under600">
-   	  		<div class="cell columns3 new3">
+   	  		<div class="cell columns4 new3">
 		   		<button id="completed">Completed</button>
 		   	</div>
 
-		   	<div class="cell columns3 new3">
+		   	<div class="cell columns4 new3">
 		   		<button id="all">All Tasks</button>
 		   	</div>
 
-		   	<div class="cell columns3 new3 noLeftPad">
+		   	<div class="cell columns4 new3">
 		   		<button id="incomplete">Incomplete</button>
 		   	</div>
+
+        <div class="cell columns4 new3">
+          <button id="statButton">Check Stats</button>
+        </div>
 		</div>
 
 		<div class="row centerRow pushRight">
@@ -55,7 +59,7 @@
 			       <div class="taskWrap row" id="{{this.id}}">
 
               
-                <div class="cell columns3">
+                <div class="cell columns3 taskHeading">
                   <h2>Task:</h2>
                     {{this.task}}
                 </div>
@@ -91,7 +95,7 @@
       <script type="x-handlebars-template" id="single-task-template">
        <div class="taskWrap row class{{this.id}}" id="{{this.id}}">
       
-              <div class="cell columns3">
+              <div class="cell columns3 taskHeading">
                 <h2>Task:</h2>
                 {{this.task}}
               </div>
@@ -115,6 +119,39 @@
 
                 <div class="infoWrap">
                 <button id="{{this.id}}" class="mark" value="{{this.complete}}">{{this.button}}</button>
+                </div>
+              </div>
+
+           </div> 
+
+        </script>
+
+          <script type="x-handlebars-template" id="stats-template">
+          <div class="statWrap row" id="stats">
+      
+              <div class="cell columns3 taskHeading">
+                <h2>Stats:</h2>
+              </div>
+
+              <div class="cell columns7 noPadding">
+                 <div class="infoWrap">
+                Experience Points Earned: {{experience}}
+                </div>
+
+                <div class="infoWrap">
+                Current Level: {{level}}
+                </div>
+
+                <div class="infoWrap">
+                Experience Points Until Next Level: {{expToNextLevel}}
+                </div>
+
+                <div class="infoWrap">
+                Tasks Completed: {{completed}}
+                </div>
+
+                <div class="infoWrap">
+                Percent Completed: {{percentComplete}}
                 </div>
               </div>
 
