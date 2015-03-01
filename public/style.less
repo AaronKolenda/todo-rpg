@@ -162,3 +162,147 @@ input {
 .offset7 {
   margin-left: ((100% / 10) * 7);
 }
+
+@media (max-width: 1380px) {
+
+  .columns3 {
+    width: ((100% / 10) * 4) - 1%;
+  }
+
+  .columns6 {
+    width: ((100% / 10) * 4) - 1%;
+    margin-top: @row-margin;
+    margin-bottom: @row-margin;
+    margin-right: 0;
+    margin-left: 0;
+    position: relative;
+    bottom: 25px;
+  }
+
+  .new3 {
+  width: ((100% / 10) * 2) - 1%;
+  margin:;
+  }
+
+  .taskWrap {
+    height: 250px;
+  }
+
+  .taskWrap .columns3 {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1250px) {
+  .pushRight {
+    margin-bottom: 0px;
+  }
+
+  #createInput {
+    margin-top: 30px;
+  }
+
+
+  }
+
+
+  @media (max-width: 950px) {
+    #search,#create {
+      margin-top: 20px;
+    }
+
+    .pushRight .columns3,.columns6 {
+      width: ((100% / 10) * 5) - 1%;
+    }
+
+    .noLeftPad {
+      padding-left: 0px;
+    }
+
+  }
+
+  @media (max-width: 855px) {
+    .taskWrap {
+      height: 300px;
+    }
+
+  }
+
+  @media (max-width: 700px) {
+    .centerRow {
+      text-align: left;
+    }
+
+    .pushRight {
+      margin-left: 0px;
+    }
+
+  }
+
+   @media (max-width: 600px) {
+    .new3 .columns3 {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 0px;
+    }
+
+    .cell, .infoWrap {
+      padding: 10px;
+    }
+
+    .under600 {
+      min-width: 600px;
+    }
+
+    .taskWrap {
+      height: 275px;
+    }
+
+    .pushRight .columns3, .columns6 {
+      display: block;
+      padding: 0px;
+      width: 100%;
+    }
+
+    .columns3 h1 {
+      display: inline-block;
+    }
+
+    .pushRight .columns3 {
+      margin-bottom: 10px;
+    }
+
+    .pushRight .columns6 {
+      padding-top: 10px;
+    }
+
+    #search,#create {
+      margin-top: 10px;
+    }
+
+    #createInput {
+      margin-top: 10px;
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
