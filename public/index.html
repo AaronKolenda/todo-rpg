@@ -49,35 +49,37 @@
 
    <div class="container" id="taskList">
 
-   		<script type="x-handlebars-template" id="tasks-template">
+   		 <script type="x-handlebars-template" id="tasks-template"> 
 
-   			{{#each this}}
-			<div class="taskWrap row" id="{{this.id}}">
+   			    {{#each this}}
+			       <div class="taskWrap row" id="{{this.id}}">
 
-			  <h2>Task</h2>
-          
-              <div class="infoWrap">
-              {{this.task}}
-              </div>
+              
+                <div class="cell columns3">
+                  <h2>Task:</h2>
+                    {{this.task}}
+                </div>
 
-               <div class="infoWrap">
-              Completed: {{this.complete}}
-              </div>
+              <div class="cell columns7 noPadding">
+                 <div class="infoWrap">
+                Completed: {{this.complete}}
+                </div>
 
-              <div class="infoWrap">
-              id# {{this.id}}
-              </div>
+                <div class="infoWrap">
+                id# {{this.id}}
+                </div>
 
-              <div class="infoWrap">
-              value: {{this.value}}
-              </div>
+                <div class="infoWrap">
+                value: {{this.value}}
+                </div>
 
-              <div class="infoWrap">
-              Created at: {{this.createdAt}}
-              </div>
+                <div class="infoWrap">
+                Created at: {{this.createdAt}}
+                </div>
 
-              <div class="infoWrap">
-              <button id="{{this.id}}" class="mark" value="{{this.complete}}">{{this.button}}</button>
+                <div class="infoWrap">
+                <button id="{{this.id}}" class="mark" value="{{this.complete}}">{{this.button}}</button>
+                </div>
               </div>
 
             </div>
@@ -87,36 +89,36 @@
 
 
       <script type="x-handlebars-template" id="single-task-template">
-       
-      <div class="taskWrap row" id="{{this.id}}">
-
-        <h2>Task</h2>
-          
-              <div class="infoWrap">
-              {{this.task}}
+       <div class="taskWrap row class{{this.id}}" id="{{this.id}}">
+      
+              <div class="cell columns3">
+                <h2>Task:</h2>
+                {{this.task}}
               </div>
 
-               <div class="infoWrap">
-              Completed: {{this.complete}}
+              <div class="cell columns7 noPadding">
+                 <div class="infoWrap">
+                Completed: {{this.complete}}
+                </div>
+
+                <div class="infoWrap">
+                id# {{this.id}}
+                </div>
+
+                <div class="infoWrap">
+                value: {{this.value}}
+                </div>
+
+                <div class="infoWrap">
+                Created at: {{this.createdAt}}
+                </div>
+
+                <div class="infoWrap">
+                <button id="{{this.id}}" class="mark" value="{{this.complete}}">{{this.button}}</button>
+                </div>
               </div>
 
-              <div class="infoWrap">
-              id# {{this.id}}
-              </div>
-
-              <div class="infoWrap">
-              value: {{this.value}}
-              </div>
-
-              <div class="infoWrap">
-              Created at: {{this.createdAt}}
-              </div>
-
-              <div class="infoWrap">
-              <button id="{{this.id}}" class="mark" value="{{this.complete}}">{{this.button}}</button>
-              </div>
-
-            </div>
+           </div> 
 
         </script>
 

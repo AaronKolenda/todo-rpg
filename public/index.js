@@ -55,7 +55,6 @@ var getTaskByID = function(id, callback) {
     url: urlString,
     method: "GET",
     success: function(data) {
-    	console.log(data)
       callback(id, data);
     }
   })
@@ -67,17 +66,30 @@ var displayOneTask = function(id, data) {
 	var markAsComplete = "Mark as Complete";
 	var markAsIncomplete = "Mark as Incomplete";
 
-		if (data.complete === true) {
+
+
+	if (data.complete === true) {
 			data.button = markAsIncomplete;
-		}
+			//$("#" + id).css("background-color", "lightblue");
+	}
 
-		if (data.complete === false) {
+	if (data.complete === false) {
 			data.button = markAsComplete;
-		}
+			//$("#" + id).css("background-color", "rgb(255, 0, 67)");
+	}
 
-	
 	var singleListString = templates.singleInfo(data);
 	$("#" + id).html(singleListString);
+
+	if (data.complete === true) {
+			$(".class" + id).css("background-color", "lightblue");
+			
+	}
+
+	if (data.complete === false) {
+			$(".class" + id).css("background-color", "rgb(255, 0, 67)");
+
+	}
 
 }
 
@@ -88,15 +100,27 @@ var displayTaskByID = function(id, data) {
 
 		if (data.complete === true) {
 			data.button = markAsIncomplete;
+			$("#" + id).css("background-color", "lightblue");
 		}
 
 		if (data.complete === false) {
 			data.button = markAsComplete;
+			$("#" + id).css("background-color", "rgb(255, 0, 67)");
 		}
 
 	
 	var singleListString = templates.singleInfo(data);
 	$("#taskList").html(singleListString);
+
+	if (data.complete === true) {
+			$("#" + id).css("background-color", "lightblue");
+			
+	}
+
+	if (data.complete === false) {
+			$("#" + id).css("background-color", "rgb(255, 0, 67)");
+
+	}
 
 }
 
@@ -134,6 +158,7 @@ var displayTasks = function(data) {
 	var markAsComplete = "Mark as Complete";
 	var markAsIncomplete = "Mark as Incomplete";
 
+
 	_.each(data, function(element, index) {
 
 		if (element.complete === true) {
@@ -149,15 +174,26 @@ var displayTasks = function(data) {
 	var taskListString = templates.tasksInfo(data);
 	$("#taskList").html(taskListString);
 
+		_.each(data, function(element, index) {
+			var divID = element.id;
+		if (element.complete === true) {
+			$("#" + divID).css("background-color", "lightblue");
+			console.log(divID);
+		}
+
+		if (element.complete === false) {
+			$("#" + divID).css("background-color", "rgb(255, 0, 67)");
+			console.log(divID);
+		}
+		});
+	
+
 }
 
 var createNewTask = function(name, value, callback) {
 	var data = {};
 	data.task = name;
 	data.value = value;
-
-	console.log(data.task);
-	console.log(data.value); //these work
 
   $.ajax({
     url: "/tasks",
@@ -212,18 +248,15 @@ $(document).ready(function(){
 	$("#search").click(function(){
 		var inputID = $("#searchInput").val();
 		inputID = inputID.trim();
-		console.log(inputID);
 		getTaskByID(inputID, displayTaskByID);
 	});
 
 	$("#create").click(function(){
 		var createID = $("#createInput").val();
 		createID = createID.trim();
-		console.log(createID);
 
 		var valueNew = $("#valueInput").val();
 		valueNew = valueNew.trim();
-		console.log(valueNew);
 		createNewTask(createID, valueNew, displayTaskByID);
 	});
 
