@@ -1,4 +1,5 @@
 var templates = {};
+var views = [];
 
 var getTemplates = function(){
 
@@ -13,217 +14,56 @@ var getTemplates = function(){
 
   };
 
-var listTasks = function(callback) {
+var Task = Backbone.Model.extend({
 
-  $.ajax({
-    url: "/tasks",
-    method: "GET",
-    success: function(data) {
-      callback(data)
-    }
-  })
+  defaults: {
+    task: "",
+    complete: false,
+    id: 0,
+    value: 0,
+    createdAt: ""
+  },
 
-}
+  viewDetails: function() {
+  	var details = this.toJSON();
+  	var task = details.task;
+  	var complete = details.complete;
+  	var id = details.id;
+  	var value = details.value;
+  	var createdAt = details.createdAt;
+  	return details;
+  }
 
-var listCompleteTasks = function(callback) {
+});
 
-  $.ajax({
-    url: "/tasks/complete",
-    method: "GET",
-    success: function(data) {
-      callback(data)
-    }
-  })
+var TaskList = Backbone.Collection.extend({
 
-}
+  url: "/tasks",
+  model: Task
 
-var listIncompleteTasks = function(callback) {
+});
 
-  $.ajax({
-    url: "/tasks/incomplete",
-    method: "GET",
-    success: function(data) {
-      callback(data)
-    }
-  })
+var TaskWrap = Backbone.View.extend({
 
-}
+  tagName: "div",
 
-var getTaskByID = function(id, callback) {
-	
-	var urlString = ("/tasks/" + id);
-	console.log(urlString);
+  initialize: function(model) {
+  	this.model = model;
+    this.render();
+  },
 
-  $.ajax({
-    url: urlString,
-    method: "GET",
-    success: function(data) {
-      callback(id, data);
-    }
-  })
+  render: function() {
+  	console.log(this, this.model)
+    this.$el.html(templates.tasksInfo(this)); //.model.viewDetails())); ?
+  }
 
-}
-
-var displayOneTask = function(id, data) {
-
-	var markAsComplete = "Mark as Complete";
-	var markAsIncomplete = "Mark as Incomplete";
+})
 
 
 
-	if (data.complete === true) {
-			data.button = markAsIncomplete;
-			//$("#" + id).css("background-color", "lightblue");
-	}
-
-	if (data.complete === false) {
-			data.button = markAsComplete;
-			//$("#" + id).css("background-color", "rgb(255, 0, 67)");
-	}
-
-	var singleListString = templates.singleInfo(data);
-	$("#" + id).html(singleListString);
-
-	if (data.complete === true) {
-			$(".class" + id).css("background-color", "lightblue");
-			
-	}
-
-	if (data.complete === false) {
-			$(".class" + id).css("background-color", "rgb(255, 0, 67)");
-
-	}
-
-}
-
-var displayTaskByID = function(id, data) {
-
-	var markAsComplete = "Mark as Complete";
-	var markAsIncomplete = "Mark as Incomplete";
-
-		if (data.complete === true) {
-			data.button = markAsIncomplete;
-			$("#" + id).css("background-color", "lightblue");
-		}
-
-		if (data.complete === false) {
-			data.button = markAsComplete;
-			$("#" + id).css("background-color", "rgb(255, 0, 67)");
-		}
-
-	
-	var singleListString = templates.singleInfo(data);
-	$("#taskList").html(singleListString);
-
-	if (data.complete === true) {
-			$("#" + id).css("background-color", "lightblue");
-			
-	}
-
-	if (data.complete === false) {
-			$("#" + id).css("background-color", "rgb(255, 0, 67)");
-
-	}
-
-}
-
-var markComplete = function(id, value) {
-
-	console.log("in markComplete value is " + value);
-
-	var urlStringClose = ("/tasks/" + id + "/close");
-	var urlStringOpen = ("/tasks/" + id + "/reopen");
-
-	if (value === "false") {
-		  $.ajax({
-		    url: urlStringClose,
-		    method: "POST",
-		    success: function(data) {
-		    }
-		  })
-	}
-
-	if (value === "true") {
-		  $.ajax({
-		    url: urlStringOpen,
-		    method: "POST",
-		    success: function(data) {
-		    }
-		  })
-	}
-
-	getTaskByID(id, displayOneTask);
-
-}
-
-var displayTasks = function(data) {
-
-	var markAsComplete = "Mark as Complete";
-	var markAsIncomplete = "Mark as Incomplete";
 
 
-	_.each(data, function(element, index) {
-
-		if (element.complete === true) {
-			element.button = markAsIncomplete;
-		}
-
-		if (element.complete === false) {
-			element.button = markAsComplete;
-		}
-
-	});
-
-	var taskListString = templates.tasksInfo(data);
-	$("#taskList").html(taskListString);
-
-		_.each(data, function(element, index) {
-			var divID = element.id;
-		if (element.complete === true) {
-			$("#" + divID).css("background-color", "lightblue");
-			console.log(divID);
-		}
-
-		if (element.complete === false) {
-			$("#" + divID).css("background-color", "rgb(255, 0, 67)");
-			console.log(divID);
-		}
-		});
-	
-
-}
-
-var createNewTask = function(name, value, callback) {
-	var data = {};
-	data.task = name;
-	data.value = value;
-
-  $.ajax({
-    url: "/tasks",
-    method: "PUT",
-    data: data,
-    success: function(data) { 
-	console.log(data);
-	var newID = data.id;
-	callback(newID, data);
-    }
-  })
-
-}
-
-var listStats = function(callback) {
-
-  $.ajax({
-    url: "/stats",
-    method: "GET",
-    success: function(data) {
-
-    	var statString = templates.statInfo(data);
-		$("#taskList").html(statString);
-    }
-  })
-
-}
+var taskCollection;
 
 $(document).ready(function(){
 
@@ -244,28 +84,7 @@ $(document).ready(function(){
 		$("#valueInput").css("color", "#555555;");
 	});
 
-	$("#all").click(function(){
-		listTasks(displayTasks);
-	});
-
-	$("#completed").click(function(){
-		listCompleteTasks(displayTasks);
-	});
-
-	$("#incomplete").click(function(){
-		listIncompleteTasks(displayTasks);
-	});
-
-	$("#statButton").click(function(){
-		listStats();
-	});
-
-	$(document).on('click', ".mark", function(){
-            var buttonID = this.id;
-            var buttonValue = this.value;
-            markComplete(buttonID, buttonValue);
-        });
-
+	/*
 	$("#search").click(function(){
 		var inputID = $("#searchInput").val();
 		inputID = inputID.trim();
@@ -279,9 +98,23 @@ $(document).ready(function(){
 		var valueNew = $("#valueInput").val();
 		valueNew = valueNew.trim();
 		createNewTask(createID, valueNew, displayTaskByID);
-	});
+	});*/
 
+	taskCollection = new TaskList;
+  	taskCollection.fetch({
+  		success: function(data) {
+  			console.log(taskCollection);
 
+		  	_.each(taskCollection, function(element, index){
+				views[index] = new TaskWrap(element);
+				$("#taskList").append(views[index].el);
+		  	});
+  		}
+  	});
+
+	
+
+ 
 });
 
 
