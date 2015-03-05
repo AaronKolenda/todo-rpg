@@ -65,7 +65,9 @@ var TaskWrap = Backbone.View.extend({
 
 var HeaderView = Backbone.View.extend({
 
-  events: { "click #all": "update" },
+  events: { "click #all": "all",
+            "click #completed": "listCompleteOrIncomplete",
+            "click #incomplete": "listCompleteOrIncomplete" },
 
   tagName: "header",
 
@@ -77,8 +79,12 @@ var HeaderView = Backbone.View.extend({
     this.$el.html(templates.headerInfo());
   },
 
-  update: function(){
+  all: function(){
     listAllTasks();
+  },
+
+  listCompleteOrIncomplete: function(ev){
+    listCompleteOrIncompleteTasks(ev);
   }
 
 })
@@ -108,10 +114,38 @@ var listAllTasks = function() {
 
       }
     });
+}
 
-    
+var listCompleteOrIncompleteTasks = function(ev) {
 
+  var completeOrIncompleteEl = $(ev.currentTarget).context;
+  var completeOrIncomplete = completeOrIncompleteEl.id;
+  var trueOrFalse;
 
+  if (completeOrIncomplete === 'completed') {
+    trueOrFalse = true;
+  }
+  if (completeOrIncomplete === 'incomplete') {
+    trueOrFalse = false;
+  }
+
+    $("#taskList").html("");
+
+    var completeOrIncompleteTasks = _.filter(taskCollection.models, function(each){
+      if (each.get('complete') === trueOrFalse) {
+        return true;
+      }
+    });
+
+    views = [];
+
+        _.each(completeOrIncompleteTasks, function(element, index){
+        views.push(new TaskWrap(element));
+        });
+
+        _.each(views, function(element, index){
+        $("#taskList").append(views[index].el);
+        });
 }
 
 
