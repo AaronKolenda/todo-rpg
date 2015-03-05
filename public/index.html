@@ -56,39 +56,39 @@
 
    		 <script type="x-handlebars-template" id="tasks-template"> 
 
-   			    {{#each this}}
+   			   
 			       <div class="taskWrap row" id="{{this.id}}">
 
               
                 <div class="cell columns3 taskHeading">
                   <h2>Task:</h2>
-                    {{this.task}}
+                    {{task}}
                 </div>
 
               <div class="cell columns7 noPadding">
                  <div class="infoWrap">
-                Completed: {{this.complete}}
+                Completed: {{complete}}
                 </div>
 
                 <div class="infoWrap">
-                id# {{this.id}}
+                id# {{id}}
                 </div>
 
                 <div class="infoWrap">
-                value: {{this.value}}
+                value: {{value}}
                 </div>
 
                 <div class="infoWrap">
-                Created at: {{this.createdAt}}
+                Created at: {{createdAt}}
                 </div>
 
                 <div class="infoWrap">
-                <button id="{{this.id}}" class="mark" value="{{this.complete}}">{{this.button}}</button>
+                <button id="{{id}}" class="mark" value="{{complete}}">{{button}}</button>
                 </div>
               </div>
 
             </div>
-            {{/each}}
+           
 
         </script>
 

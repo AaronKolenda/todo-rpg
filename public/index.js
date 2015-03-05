@@ -32,6 +32,7 @@ var Task = Backbone.Model.extend({
   	var value = details.value;
   	var createdAt = details.createdAt;
   	return details;
+    console.log(details);
   }
 
 });
@@ -54,13 +55,10 @@ var TaskWrap = Backbone.View.extend({
 
   render: function() {
   	console.log(this, this.model)
-    this.$el.html(templates.tasksInfo(this)); //.model.viewDetails())); ?
+    this.$el.html(templates.tasksInfo(this.model.viewDetails())); //.model.viewDetails())); ?
   }
 
 })
-
-
-
 
 
 var taskCollection;
@@ -105,10 +103,15 @@ $(document).ready(function(){
   		success: function(data) {
   			console.log(taskCollection);
 
-		  	_.each(taskCollection, function(element, index){
-				views[index] = new TaskWrap(element);
-				$("#taskList").append(views[index].el);
+		  	_.each(taskCollection.models, function(element, index){
+				views.push(new TaskWrap(element));
 		  	});
+        console.log(views);
+
+        _.each(views, function(element, index){
+        $("#taskList").append(views[index].el);
+        });
+
   		}
   	});
 
