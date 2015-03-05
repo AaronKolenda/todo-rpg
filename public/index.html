@@ -10,56 +10,56 @@
 		<script src="libs/backbone.js"></script>
     <script src="index.js"></script>
   </head>
+
   <body>
-   <header>
-   	<div class="container">
-   	  	<div class="row centerRow">
-   	  		<h1>Keep Track of Your Tasks. Get Experience Points. Get Rewarded.</h1>
-   	  	</div>
+      <script type="x-handlebars-template" id="header-template">
+       	<div class="container">
+       	  	<div class="row centerRow">
+       	  		<h1>Keep Track of Your Tasks. Get Experience Points. Get Rewarded.</h1>
+       	  	</div>
 
-   	  	<div class="row centerRow under600">
-   	  		<div class="cell columns4 new3">
-		   		<button id="completed">Completed</button>
-		   	</div>
+       	  	<div class="row centerRow under600">
+       	  		<div class="cell columns4 new3">
+    		   		<button id="completed">Completed</button>
+    		   	</div>
 
-		   	<div class="cell columns4 new3">
-		   		<button id="all">All Tasks</button>
-		   	</div>
+    		   	<div class="cell columns4 new3">
+    		   		<button id="all">All Tasks</button>
+    		   	</div>
 
-		   	<div class="cell columns4 new3">
-		   		<button id="incomplete">Incomplete</button>
-		   	</div>
+    		   	<div class="cell columns4 new3">
+    		   		<button id="incomplete">Incomplete</button>
+    		   	</div>
 
-        <div class="cell columns4 new3">
-          <button id="statButton">Check Stats</button>
-        </div>
-		</div>
+            <div class="cell columns4 new3">
+              <button id="statButton">Check Stats</button>
+            </div>
+    		</div>
 
-		<div class="row centerRow pushRight">
-			<div class="cell columns3">
-				<h1>Search for a task</h1>
-			   	<input type="text" value="Task ID#" id="searchInput">
-			   	<button id="search">Search</button>
-		   	</div>
-		
-			<div class="cell columns6">
-				<h1>Create a new task</h1>
-			   	<input type="text" value="Value" id="valueInput">
-          <input type="text" value="Task" id="createInput">
-          <button id="create">Create</button>
-      </div>
-		</div>
-	</div>
-   </header>
+    		<div class="row centerRow pushRight">
+    			<div class="cell columns3">
+    				<h1>Search for a task</h1>
+    			   	<input type="text" value="Task ID#" id="searchInput">
+    			   	<button id="search">Search</button>
+    		   	</div>
+    		
+    			<div class="cell columns6">
+    				<h1>Create a new task</h1>
+    			   	<input type="text" value="Value" id="valueInput">
+              <input type="text" value="Task" id="createInput">
+              <button id="create">Create</button>
+          </div>
+    		</div>
+    	</div>
+    </script>
+  
 
    <div class="container" id="taskList">
 
    		 <script type="x-handlebars-template" id="tasks-template"> 
 
-   			   
-			       <div class="taskWrap row" id="{{this.id}}">
+			       <div class="taskWrap row" id="{{id}}">
 
-              
                 <div class="cell columns3 taskHeading">
                   <h2>Task:</h2>
                     {{task}}

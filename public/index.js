@@ -3,6 +3,9 @@ var views = [];
 
 var getTemplates = function(){
 
+  var headerString = $("#header-template").text()
+  templates.headerInfo = Handlebars.compile(headerString);
+
   var tasksString = $("#tasks-template").text()
   templates.tasksInfo = Handlebars.compile(tasksString);
 
@@ -60,12 +63,65 @@ var TaskWrap = Backbone.View.extend({
 
 })
 
+var HeaderView = Backbone.View.extend({
+
+  events: { "click #all": "update" },
+
+  tagName: "header",
+
+  initialize: function() {
+    this.render();
+  },
+
+  render: function() {
+    this.$el.html(templates.headerInfo());
+  },
+
+  update: function(){
+    listAllTasks();
+  }
+
+})
+
+var displayHeader = function() {
+
+    var headerView = new HeaderView();
+    $("body").prepend(headerView.el);
+}
+
+var listAllTasks = function() {
+    console.log("listing the tasks");
+    $("#taskList").html("");
+    taskCollection = new TaskList;
+    taskCollection.fetch({
+      success: function(data) {
+        console.log(taskCollection);
+
+        _.each(taskCollection.models, function(element, index){
+        views.push(new TaskWrap(element));
+        });
+        console.log(views);
+
+        _.each(views, function(element, index){
+        $("#taskList").append(views[index].el);
+        });
+
+      }
+    });
+
+    
+
+
+}
+
 
 var taskCollection;
 
 $(document).ready(function(){
 
 	getTemplates();
+  displayHeader();
+  listAllTasks();
 
 	$("#searchInput").click(function(){
 		$("#searchInput").val(" ");
@@ -98,22 +154,7 @@ $(document).ready(function(){
 		createNewTask(createID, valueNew, displayTaskByID);
 	});*/
 
-	taskCollection = new TaskList;
-  	taskCollection.fetch({
-  		success: function(data) {
-  			console.log(taskCollection);
 
-		  	_.each(taskCollection.models, function(element, index){
-				views.push(new TaskWrap(element));
-		  	});
-        console.log(views);
-
-        _.each(views, function(element, index){
-        $("#taskList").append(views[index].el);
-        });
-
-  		}
-  	});
 
 	
 
