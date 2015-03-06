@@ -56,7 +56,8 @@ var TaskWrap = Backbone.View.extend({
   initialize: function(model) {
   	this.model = model;
     this.render();
-    this.listenTo(model, "change", this.render)
+    this.listenTo(model, "change", this.render);
+    //this.listenTo(model, "change", this.model.save());
   },
 
   render: function() {
@@ -66,28 +67,25 @@ var TaskWrap = Backbone.View.extend({
 
   setBackground: function() {
        if (this.model.get('complete') === true) {
-        this.$el.css("background-color", "lightblue");
-        console.log("in first if"); //yep
-      }
+        this.$el.find(".taskWrap").css("background-color", "lightblue");
+        }
       if (this.model.get('complete') === false) {
-        this.$el.css("background-color", "#ff0043");
-        console.log("in second if");
+        this.$el.find(".taskWrap").css("background-color", "rgb(255, 0, 67);");
       }
   },
 
   toggleComplete: function(ev) {
     var whatever = $(ev.currentTarget).context.id;
-    console.log(whatever);
     var currentObj = taskCollection.models[whatever-1];
-    console.log(currentObj);
-    console.log(currentObj.get('complete'));
+  
     if (currentObj.get('complete') === true) {
       currentObj.set('complete', false);
+      currentObj.set('button', "Mark as Complete");
       return;
     }
     if (currentObj.get('complete') === false) {
       currentObj.set('complete', true);
-      console.log(currentObj);
+      currentObj.set('button', "Mark as Incomplete");
       return;
     }
     
@@ -100,7 +98,8 @@ var HeaderView = Backbone.View.extend({
 
   events: { "click #all": "all",
             "click #completed": "listCompleteOrIncomplete",
-            "click #incomplete": "listCompleteOrIncomplete" },
+            "click #incomplete": "listCompleteOrIncomplete",
+            "click #search": "listSingle" },
 
   tagName: "header",
 
@@ -118,6 +117,10 @@ var HeaderView = Backbone.View.extend({
 
   listCompleteOrIncomplete: function(ev){
     listCompleteOrIncompleteTasks(ev);
+  },
+
+  listSingle: function(mod) {
+    listSingleTask(mod);
   }
 
 })
@@ -130,10 +133,10 @@ var displayHeader = function() {
 
 var listAllTasks = function() {
     $("#taskList").html("");
+    views = [];
     taskCollection = new TaskList;
     taskCollection.fetch({
       success: function(data) {
-
         _.each(taskCollection.models, function(element, index){
         views.push(new TaskWrap(element));
         });
@@ -146,8 +149,14 @@ var listAllTasks = function() {
     });
 }
 
-var listSingleTask = function() {
-
+var listSingleTask = function(mod) {
+  var searchedID = $("#searchInput").val();
+  $("#taskList").html("");
+  var searchedTask = taskCollection.get(Number(searchedID));
+  views = [];
+  var searchedTaskView = new TaskWrap(searchedTask);
+  views.push(searchedTaskView);
+  $("#taskList").append(views[0].el);
 }
 
 var listCompleteOrIncompleteTasks = function(ev) {
