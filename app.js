@@ -92,7 +92,7 @@ app.post("/tasks/:taskId/reopen", function(req, res){
 })
 
 // Route to add a new task -- note: it uses a different verb
-app.put("/tasks", function(req, res){
+app.post("/tasks", function(req, res){
   // Create a new task in the task DB, passing in the request body
   var task = taskDB.create(req.body)
 

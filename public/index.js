@@ -17,6 +17,17 @@ var getTemplates = function(){
 
   };
 
+  var Stats  = Backbone.Model.extend({
+
+  });
+
+  var StatsList = Backbone.Collection.extend({
+
+  url: "/stats",
+  model: Stats
+
+  });
+
 var Task = Backbone.Model.extend({
 
   defaults: {
@@ -36,6 +47,40 @@ var Task = Backbone.Model.extend({
   	var value = details.value;
   	var createdAt = details.createdAt;
   	return details;
+  },
+
+  close: function() {
+    $.ajax({
+      url: "/tasks/" + this.id + "/close",
+      method: "POST",
+      context: this,
+      success: function(updatedTask) {
+        this.set(updatedTask)
+      }
+    })
+  },
+
+  reopen: function() {
+    $.ajax({
+      url: "/tasks/" + this.id + "/reopen",
+      method: "POST",
+      context: this,
+      success: function(updatedTask) {
+        this.set(updatedTask)
+      }
+    })
+
+  },
+
+  createNew: function() {
+  $.ajax({
+      url: "/tasks",
+      method: "POST",
+      context: this,
+      success: function(updatedTask) {
+        this.set(updatedTask)
+      }
+    })
   }
 
 });
@@ -57,7 +102,6 @@ var TaskWrap = Backbone.View.extend({
   	this.model = model;
     this.render();
     this.listenTo(model, "change", this.render);
-    //this.listenTo(model, "change", this.model.save());
   },
 
   render: function() {
@@ -79,16 +123,15 @@ var TaskWrap = Backbone.View.extend({
     var currentObj = taskCollection.models[whatever-1];
   
     if (currentObj.get('complete') === true) {
-      currentObj.set('complete', false);
       currentObj.set('button', "Mark as Complete");
+      currentObj.reopen();
       return;
     }
     if (currentObj.get('complete') === false) {
-      currentObj.set('complete', true);
       currentObj.set('button', "Mark as Incomplete");
+      currentObj.close();
       return;
     }
-    
 
   }
 
@@ -99,7 +142,9 @@ var HeaderView = Backbone.View.extend({
   events: { "click #all": "all",
             "click #completed": "listCompleteOrIncomplete",
             "click #incomplete": "listCompleteOrIncomplete",
-            "click #search": "listSingle" },
+            "click #search": "listSingle",
+            "click #create": "createTask",
+            "click #statButton": "listStats"},
 
   tagName: "header",
 
@@ -119,11 +164,33 @@ var HeaderView = Backbone.View.extend({
     listCompleteOrIncompleteTasks(ev);
   },
 
-  listSingle: function(mod) {
-    listSingleTask(mod);
+  listSingle: function() {
+    listSingleTask();
+  },
+
+  createTask: function() {
+    createNewTask();
+  },
+
+  listStats: function() {
+    listTheStats();
   }
 
 })
+
+var StatView = Backbone.View.extend({
+
+  initialize: function(model) {
+    this.model = model;
+    this.render();
+    this.listenTo(taskCollection, "change", this.render);
+  },
+
+  render: function() {
+    this.$el.html(templates.statInfo());
+  }
+
+});
 
 var displayHeader = function() {
 
@@ -149,7 +216,7 @@ var listAllTasks = function() {
     });
 }
 
-var listSingleTask = function(mod) {
+var listSingleTask = function() {
   var searchedID = $("#searchInput").val();
   $("#taskList").html("");
   var searchedTask = taskCollection.get(Number(searchedID));
@@ -191,6 +258,50 @@ var listCompleteOrIncompleteTasks = function(ev) {
         });
 }
 
+var createNewTask = function() {
+  var newValue = $("#valueInput").val();
+  var newName = $("#createInput").val();
+
+  var newTask = new Task({
+    task: newName,
+    value: newValue
+  });
+
+  /*taskCollection.create(newTask, {
+    success: function(newModel) {
+      var view = new TaskView(newModel)
+      $("#taskList").append(view.$el)
+    }
+  });*/
+
+  taskCollection.add(newTask);
+  newTask.createNew();
+  var view = new TaskWrap(newTask);
+  $("#taskList").append(view.$el);
+
+
+  console.log(newTask);
+
+}
+
+
+var listTheStats = function() {
+  
+  $("#taskList").html("");
+  views = [];
+
+  var statsCollection = new StatsList();
+
+  statsCollection.fetch({
+  success: function(data) {
+  var statList = new Stats;
+  var theStatView = new StatView(statList);
+  views.push(theStatView);
+  $("#taskList").append(views[0].$el)
+  }
+  });
+
+}
 
 var taskCollection;
 
@@ -215,27 +326,6 @@ $(document).ready(function(){
 		$("#valueInput").css("color", "#555555;");
 	});
 
-	/*
-	$("#search").click(function(){
-		var inputID = $("#searchInput").val();
-		inputID = inputID.trim();
-		getTaskByID(inputID, displayTaskByID);
-	});
-
-	$("#create").click(function(){
-		var createID = $("#createInput").val();
-		createID = createID.trim();
-
-		var valueNew = $("#valueInput").val();
-		valueNew = valueNew.trim();
-		createNewTask(createID, valueNew, displayTaskByID);
-	});*/
-
-
-
-	
-
- 
 });
 
 
