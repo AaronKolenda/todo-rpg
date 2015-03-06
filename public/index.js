@@ -24,7 +24,8 @@ var Task = Backbone.Model.extend({
     complete: false,
     id: 0,
     value: 0,
-    createdAt: ""
+    createdAt: "",
+    button: "Mark as Complete"
   },
 
   viewDetails: function() {
@@ -35,7 +36,6 @@ var Task = Backbone.Model.extend({
   	var value = details.value;
   	var createdAt = details.createdAt;
   	return details;
-    console.log(details);
   }
 
 });
@@ -49,16 +49,49 @@ var TaskList = Backbone.Collection.extend({
 
 var TaskWrap = Backbone.View.extend({
 
+  events: { "click .mark": "toggleComplete"},
+
   tagName: "div",
 
   initialize: function(model) {
   	this.model = model;
     this.render();
+    this.listenTo(model, "change", this.render)
   },
 
   render: function() {
-  	console.log(this, this.model)
-    this.$el.html(templates.tasksInfo(this.model.viewDetails())); //.model.viewDetails())); ?
+    this.$el.html(templates.tasksInfo(this.model.viewDetails()));
+    this.setBackground();
+  },
+
+  setBackground: function() {
+       if (this.model.get('complete') === true) {
+        this.$el.css("background-color", "lightblue");
+        console.log("in first if"); //yep
+      }
+      if (this.model.get('complete') === false) {
+        this.$el.css("background-color", "#ff0043");
+        console.log("in second if");
+      }
+  },
+
+  toggleComplete: function(ev) {
+    var whatever = $(ev.currentTarget).context.id;
+    console.log(whatever);
+    var currentObj = taskCollection.models[whatever-1];
+    console.log(currentObj);
+    console.log(currentObj.get('complete'));
+    if (currentObj.get('complete') === true) {
+      currentObj.set('complete', false);
+      return;
+    }
+    if (currentObj.get('complete') === false) {
+      currentObj.set('complete', true);
+      console.log(currentObj);
+      return;
+    }
+    
+
   }
 
 })
@@ -96,17 +129,14 @@ var displayHeader = function() {
 }
 
 var listAllTasks = function() {
-    console.log("listing the tasks");
     $("#taskList").html("");
     taskCollection = new TaskList;
     taskCollection.fetch({
       success: function(data) {
-        console.log(taskCollection);
 
         _.each(taskCollection.models, function(element, index){
         views.push(new TaskWrap(element));
         });
-        console.log(views);
 
         _.each(views, function(element, index){
         $("#taskList").append(views[index].el);
@@ -114,6 +144,10 @@ var listAllTasks = function() {
 
       }
     });
+}
+
+var listSingleTask = function() {
+
 }
 
 var listCompleteOrIncompleteTasks = function(ev) {
