@@ -19,6 +19,25 @@ var getTemplates = function(){
 
   var Stats  = Backbone.Model.extend({
 
+    defaults: {
+    experience: 0,
+    level: 0,
+    expToNextLevel: 1,
+    completed: 0,
+    percentComplete: 0
+  },
+
+  viewDetails: function() {
+    var details = this.toJSON();
+    var experience = details.experience;
+    var level = details.level;
+    var expToNextLevel = details.expToNextLevel;
+    var completed = details.completed;
+    details.percentComplete = (Math.round(details.percentComplete * 100)) + '%';
+    return details;
+  },
+
+
   });
 
   var StatsList = Backbone.Collection.extend({
@@ -45,7 +64,7 @@ var Task = Backbone.Model.extend({
   	var complete = details.complete;
   	var id = details.id;
   	var value = details.value;
-  	var createdAt = details.createdAt;
+  	details.createdAt = moment(details.createdAt).format('LL');
   	return details;
   },
 
@@ -105,6 +124,7 @@ var TaskWrap = Backbone.View.extend({
   },
 
   render: function() {
+    this.setBackground();
     this.$el.html(templates.tasksInfo(this.model.viewDetails()));
     this.setBackground();
   },
@@ -112,9 +132,11 @@ var TaskWrap = Backbone.View.extend({
   setBackground: function() {
        if (this.model.get('complete') === true) {
         this.$el.find(".taskWrap").css("background-color", "lightblue");
+        this.model.set('button', "Mark as Incomplete");
         }
       if (this.model.get('complete') === false) {
         this.$el.find(".taskWrap").css("background-color", "rgb(255, 0, 67);");
+        this.model.set('button', "Mark as Complete");
       }
   },
 
@@ -187,7 +209,7 @@ var StatView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(templates.statInfo());
+    this.$el.html(templates.statInfo(this.model.viewDetails()));
   }
 
 });
@@ -293,11 +315,19 @@ var listTheStats = function() {
   var statsCollection = new StatsList();
 
   statsCollection.fetch({
-  success: function(data) {
-  var statList = new Stats;
-  var theStatView = new StatView(statList);
-  views.push(theStatView);
-  $("#taskList").append(views[0].$el)
+    success: function(data) {
+      var theStatView = new StatView(statsCollection.models[0]);
+      views.push(theStatView);
+
+      $("#taskList").append(views[0].$el) //displays template with no data injected
+
+      //console.log(views[0].$el[0]['attributes'][0]['textContent']); 
+      //console.log(views[0].$el[0]['attributes'][1]['textContent']); 
+      //console.log(views[0].$el[0]['attributes'][2]['textContent']); 
+      //console.log(views[0].$el[0]['attributes'][3]['textContent']); 
+      //console.log(views[0].$el[0]['attributes'][4]['textContent']); 
+      //console.log(views[0].$el[0]['attributes'][5]['textContent']); 
+      // ^ this works but... this is how I have to get the data!?
   }
   });
 
